@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { format } from 'date-fns';
 import { useFinanceStore } from '@/hooks/useFinance';
 import { Badge } from '@/components/ui/Badge';
-import { PageHeader, Section, Button, Input, Select } from '@/components/ui/index';
+import { PageHeader, Section, Button, Select } from '@/components/ui/index';
 import { formatCurrency } from '@/utils/currency';
 import { Search, Plus, Trash2, Pencil } from 'lucide-react';
 import { AddIncomeModal } from './AddIncomeModal';

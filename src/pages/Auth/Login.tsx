@@ -9,9 +9,6 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    // We'll also allow users to sign up if it's the first time
-    const [isSignUp, setIsSignUp] = useState(false);
-
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -20,22 +17,12 @@ export default function Login() {
         setError(null);
 
         try {
-            if (isSignUp) {
-                const { error } = await supabase.auth.signUp({
-                    email,
-                    password,
-                });
-                if (error) throw error;
-                // Supabase by default sends an email confirmation. We'll show a message or login directly if configured to auto-confirm.
-                setError("If your email requires verification, please check your inbox.");
-            } else {
-                const { error } = await supabase.auth.signInWithPassword({
-                    email,
-                    password,
-                });
-                if (error) throw error;
-                navigate('/');
-            }
+            const { error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
+            if (error) throw error;
+            navigate('/');
         } catch (err: any) {
             setError(err.message || 'An error occurred during authentication');
         } finally {
@@ -50,7 +37,7 @@ export default function Login() {
                     FiVision
                 </h1>
                 <h2 className="mt-2 text-center text-[15px] text-[#6B7280]">
-                    {isSignUp ? 'Create your account' : 'Sign in to your dashboard'}
+                    Sign in to your dashboard
                 </h2>
             </div>
 
@@ -80,21 +67,9 @@ export default function Login() {
                         />
 
                         <Button type="submit" className="w-full justify-center" disabled={loading}>
-                            {loading ? 'Please wait...' : isSignUp ? 'Sign up' : 'Sign in'}
+                            {loading ? 'Please wait...' : 'Sign in'}
                         </Button>
                     </form>
-
-                    <div className="mt-6 text-center">
-                        <button
-                            onClick={() => {
-                                setIsSignUp(!isSignUp);
-                                setError(null);
-                            }}
-                            className="text-[13px] text-[#2563EB] hover:text-[#1D4ED8] transition-colors font-medium"
-                        >
-                            {isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>

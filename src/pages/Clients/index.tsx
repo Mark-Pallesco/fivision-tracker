@@ -42,7 +42,7 @@ export default function Clients() {
     const totalRevenue = clients.reduce((s, c) => s + c.totalRevenue, 0);
 
     return (
-        <div className="p-8">
+        <div className="p-4 md:p-8">
             {modalEntry !== null && (
                 <AddClientModal
                     entry={modalEntry ?? undefined}

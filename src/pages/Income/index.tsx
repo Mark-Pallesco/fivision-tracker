@@ -64,7 +64,7 @@ export default function Income() {
     );
 
     return (
-        <div className="p-8">
+        <div className="p-4 md:p-8">
             {modalEntry !== null && (
                 <AddIncomeModal
                     entry={modalEntry ?? undefined}

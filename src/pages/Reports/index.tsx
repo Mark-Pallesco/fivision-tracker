@@ -53,7 +53,7 @@ export default function Reports() {
     };
 
     return (
-        <div className="p-8">
+        <div className="p-4 md:p-8">
             <PageHeader title="Reports" description="Financial reporting and exports" />
 
             {/* P&L Summary */}

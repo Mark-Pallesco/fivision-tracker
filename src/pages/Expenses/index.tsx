@@ -68,7 +68,7 @@ export default function Expenses() {
     );
 
     return (
-        <div className="p-8">
+        <div className="p-4 md:p-8">
             {/* Modal — shared for Add & Edit */}
             {modalEntry !== null && (
                 <ExpenseFormModal

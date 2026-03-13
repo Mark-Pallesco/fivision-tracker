@@ -6,7 +6,7 @@ import { Section } from '@/components/ui/index';
 import { Badge } from '@/components/ui/Badge';
 import { formatCurrency } from '@/utils/currency';
 import { calculateMargin, getMarginTier } from '@/utils/calculations';
-import { ArrowLeft, Building2, Plus, Pencil, Trash2 } from 'lucide-react';
+import { ArrowLeft, Plus, Pencil, Trash2 } from 'lucide-react';
 import { ProjectFormModal } from './ProjectFormModal';
 import { AddIncomeModal } from '@/pages/Income/AddIncomeModal';
 import { Button } from '@/components/ui/index';
@@ -27,7 +27,7 @@ export default function ClientDetail() {
 
     if (!loading && !client) {
         return (
-            <div className="p-8">
+            <div className="p-4 md:p-8">
                 <button
                     onClick={() => navigate('/clients')}
                     className="flex items-center gap-2 text-[13px] text-[#6B7280] hover:text-[#111827] mb-6 transition-colors"
@@ -41,7 +41,7 @@ export default function ClientDetail() {
 
     if (loading || !client) {
         return (
-            <div className="p-8 flex items-center justify-center h-full">
+            <div className="p-4 md:p-8 flex items-center justify-center h-full">
                 <p className="text-[14px] text-[#6B7280]">Loading…</p>
             </div>
         );
@@ -71,8 +71,8 @@ export default function ClientDetail() {
     };
 
     return (
-        <div className="p-8">
-            {projectModal.isOpen && (
+        <div className="p-4 md:p-8">
+            {projectModal !== null && (
                 <ProjectFormModal
                     client={client}
                     entry={projectModal.entry}
@@ -95,24 +95,22 @@ export default function ClientDetail() {
                 <ArrowLeft size={14} /> Back to Clients
             </button>
 
-            {/* Client header card */}
-            <div className="bg-white border border-[#E5E7EB] rounded-lg px-6 py-5 mb-6 shadow-[0_1px_3px_0_rgb(0_0_0/0.06)] flex items-start gap-4">
-                <div className="w-12 h-12 rounded-lg bg-[#F3F4F6] flex items-center justify-center flex-shrink-0">
-                    <Building2 size={22} className="text-[#374151]" />
-                </div>
-                <div className="flex-1">
+            {/* Client Header Info */}
+            <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-8 bg-white border border-[#E5E7EB] rounded-lg p-5 shadow-[0_1px_3px_0_rgb(0_0_0/0.06)]">
+                <div>
                     <div className="flex items-center gap-3 mb-1">
-                        <h1 className="text-[22px] font-semibold text-[#111827] tracking-tight">{client.name}</h1>
-                        <span className={`inline-flex px-2 py-0.5 rounded text-[11px] font-medium border ${client.status === 'Active' ? 'bg-[#F0FDF4] text-[#16A34A] border-[#BBF7D0]' : 'bg-[#F3F4F6] text-[#6B7280] border-[#E5E7EB]'}`}>
-                            {client.status}
-                        </span>
+                        <h2 className="text-[20px] font-semibold text-[#111827]">{client.name}</h2>
+                        <span className={`inline-flex px-2 py-0.5 rounded text-[11px] font-medium border ${client.status === 'Active'
+                            ? 'bg-[#ECFDF5] text-[#065F46] border-[#A7F3D0]'
+                            : 'bg-[#F3F4F6] text-[#374151] border-[#D1D5DB]'
+                            }`}>{client.status}</span>
                     </div>
                     <p className="text-[13px] text-[#6B7280]">{client.industry} · {client.email} · {client.phone}</p>
                 </div>
 
                 {/* Summary stats */}
-                <div className="flex items-center gap-8 flex-shrink-0">
-                    <div className="text-right">
+                <div className="flex items-center gap-6 md:gap-8 flex-wrap lg:flex-nowrap">
+                    <div className="text-left md:text-right w-full sm:w-auto">
                         <p className="text-[12px] text-[#6B7280] mb-0.5">Total Revenue</p>
                         <p className="text-[18px] font-semibold text-[#111827] tabular-nums">{formatCurrency(totalRevenue)}</p>
                     </div>

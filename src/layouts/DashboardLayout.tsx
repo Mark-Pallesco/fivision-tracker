@@ -8,9 +8,12 @@ import {
     BarChart2,
     Settings,
     LogOut,
+    Menu,
+    X
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { useAuth } from '@/hooks/useAuth';
+import { useState, useEffect } from 'react';
 
 const navItems = [
     { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
@@ -24,13 +27,33 @@ const navItems = [
 export default function DashboardLayout() {
     const location = useLocation();
     const { user, signOut } = useAuth();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    // Close sidebar on route change for mobile
+    useEffect(() => {
+        setIsSidebarOpen(false);
+    }, [location.pathname]);
 
     return (
         <div className="flex h-screen bg-[#F7F8FA] font-sans overflow-hidden">
+
+            {/* Mobile overlay */}
+            {isSidebarOpen && (
+                <div
+                    className="fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity"
+                    onClick={() => setIsSidebarOpen(false)}
+                />
+            )}
+
             {/* Sidebar */}
-            <aside className="w-60 flex-shrink-0 bg-white border-r border-[#E5E7EB] flex flex-col">
+            <aside
+                className={cn(
+                    "fixed inset-y-0 left-0 z-50 w-60 bg-white border-r border-[#E5E7EB] flex flex-col transform transition-transform duration-200 ease-in-out lg:relative lg:translate-x-0",
+                    isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+                )}
+            >
                 {/* Logo */}
-                <div className="h-16 flex items-center px-6 border-b border-[#E5E7EB]">
+                <div className="h-16 flex items-center justify-between px-6 border-b border-[#E5E7EB]">
                     <div className="flex items-center gap-2.5">
                         <div className="w-7 h-7 rounded-md bg-[#111827] flex items-center justify-center">
                             <span className="text-white text-xs font-bold">Fi</span>
@@ -39,6 +62,13 @@ export default function DashboardLayout() {
                             FiVision
                         </span>
                     </div>
+                    {/* Close button for mobile */}
+                    <button
+                        onClick={() => setIsSidebarOpen(false)}
+                        className="p-1.5 text-[#9CA3AF] hover:bg-[#F3F4F6] rounded-md transition-colors lg:hidden"
+                    >
+                        <X size={18} />
+                    </button>
                 </div>
 
                 {/* Navigation */}
@@ -113,8 +143,28 @@ export default function DashboardLayout() {
             </aside>
 
             {/* Main content */}
-            <main className="flex-1 overflow-y-auto">
-                <Outlet />
+            <main className="flex-1 overflow-y-auto w-full">
+                {/* Mobile Header Toggle */}
+                <div className="lg:hidden bg-white border-b border-[#E5E7EB] h-16 flex items-center px-4 sticky top-0 z-30">
+                    <button
+                        onClick={() => setIsSidebarOpen(true)}
+                        className="p-2 -ml-2 text-[#6B7280] hover:text-[#111827] hover:bg-[#F3F4F6] rounded-md transition-colors"
+                    >
+                        <Menu size={20} />
+                    </button>
+                    <div className="ml-3 flex items-center gap-2">
+                        <div className="w-6 h-6 rounded-md bg-[#111827] flex items-center justify-center">
+                            <span className="text-white text-[10px] font-bold">Fi</span>
+                        </div>
+                        <span className="text-[#111827] font-semibold text-[14px]">
+                            FiVision
+                        </span>
+                    </div>
+                </div>
+
+                <div className="w-full">
+                    <Outlet />
+                </div>
             </main>
         </div>
     );

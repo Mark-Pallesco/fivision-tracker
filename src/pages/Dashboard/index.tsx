@@ -27,14 +27,14 @@ export default function Dashboard() {
     }
 
     return (
-        <div className="p-8">
+        <div className="p-4 md:p-8">
             <PageHeader
                 title="Dashboard"
                 description="Financial overview for March 2026"
             />
 
             {/* Metric Cards */}
-            <div className="grid grid-cols-4 gap-5 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 mb-8">
                 <StatCard
                     title="Revenue"
                     value={metrics.totalRevenue}
@@ -58,16 +58,16 @@ export default function Dashboard() {
             </div>
 
             {/* Charts Row */}
-            <div className="grid grid-cols-12 gap-5 mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 mb-8">
                 {/* Revenue vs Expenses */}
-                <div className="col-span-7">
+                <div className="col-span-1 lg:col-span-7">
                     <Section title="Revenue vs Expenses" description="Monthly performance comparison">
                         <RevenueExpensesChart data={monthlyData} />
                     </Section>
                 </div>
 
                 {/* Expense Breakdown */}
-                <div className="col-span-5">
+                <div className="col-span-1 lg:col-span-5">
                     <Section title="Expense Breakdown" description="By category, all time">
                         <ExpenseBreakdownChart data={expenseBreakdown} />
                     </Section>
